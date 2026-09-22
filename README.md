@@ -1,194 +1,237 @@
 # TruthLens — AI-Powered News & Claim Verification System
 
-[![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
-[![React 19](https://img.shields.io/badge/React-19.0-61dafb.svg)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6.svg)](https://www.typescriptlang.org/)
-[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.8-F7931E.svg)](https://scikit-learn.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-8.2-green.svg)](https://www.mongodb.com/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React 19](https://img.shields.io/badge/React-19.0-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.5+-F7931E.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Supported-47A248.svg?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> **Responsible AI Notice:** TruthLens does not establish absolute mathematical truth. It provides evidence-based claim analysis using available sources, fact-checks, retrieval methods, and machine-learning signals.
+> **TruthLens** is an AI-powered news and claim verification system that analyzes articles, headlines, and URLs, extracts factual claims, retrieves evidence from web and fact-checking sources, and evaluates whether claims are supported, contradicted, unverified, or misleading using NLP, machine learning, and transparent evidence analysis.
 
 ---
 
-## 1. Overview
+## Visual Showcase
 
-**TruthLens** is a complete, production-quality full-stack intelligence system designed to analyze headlines, factual assertions, news articles, and URLs. Rather than relying on black-box predictions or claiming mathematical omniscience, TruthLens breaks submissions into atomic claims, retrieves verifiable real-world evidence from reliable external databases, evaluates publisher credibility, and synthesizes transparent, explainable verdicts with clickable primary source citations.
+| Landing Page & Hero | Verification Workspace |
+|:---:|:---:|
+| ![Landing Page](docs/screenshots/01_landing_page.png) | ![Verification Workspace](docs/screenshots/02_verification_workspace.png) |
 
----
+| Verification Result & Verdict Breakdown | Live Evidence Cards & Stance Analysis |
+|:---:|:---:|
+| ![Verification Result](docs/screenshots/03_verification_result.png) | ![Evidence Cards](docs/screenshots/04_evidence_cards.png) |
 
-## 2. Core Capabilities
-
-- **Multi-Modal Claim Ingestion**: Supports direct text statements, multi-paragraph news articles, and live article URLs.
-- **SSRF-Protected Web Scraping**: Validates URLs, checks against private IPv4/IPv6 ranges (RFC 1918, RFC 3927, loopback, cloud metadata endpoints), enforces safe redirection policies, and strips boilerplate ads/trackers.
-- **NLP Claim Decomposition**: Isolates atomic factual claims from complex compound sentences (e.g. *"Drinking coffee prevents cancer and increases lifespan"* &rarr; Claim 1: *"Drinking coffee prevents cancer"*, Claim 2: *"Drinking coffee increases lifespan"*).
-- **Multi-Tier Live Evidence Retrieval**: Gathers live citations from open news repositories, encyclopedic records (Wikipedia API), and accredited fact-checking organizations without hallucinated or synthetic citations.
-- **Fact-Checker Synchronization**: Connects to the Google Fact Check Tools API and open fact-checking repositories (Snopes, PolitiFact, Full Fact) to locate existing certified reviews.
-- **Source Authority Categorization**: Classifies sources into verified tiers (*Government / Official*, *Scientific / Academic*, *Established News*, *Fact-checking organization*, *Organization*, or *General Website*).
-- **ML Pattern Signal (TF-IDF + Logistic Regression)**: Identifies sensationalism, hyperbole, and clickbait phrasing. Strictly labeled in the UI as an **ML Pattern Signal**, never as a "Truth Probability."
-- **Server-Sent Events (SSE) Live Pipeline**: Streams real-time progress sequence (`READING_CONTENT` &rarr; `EXTRACTING_CLAIMS` &rarr; `SEARCHING_EVIDENCE` &rarr; `COMPARING_SOURCES` &rarr; `GENERATING_EXPLANATION`).
-- **Certified Demo Mode**: Includes three pre-verified benchmarks (🟢 Supported, 🔴 Contradicted, 🟠 Misleading) clearly segregated from live unverified queries.
-- **Full History & Analytics Dashboard**: Stores historical verifications in MongoDB (with in-memory fallback), providing search, filtering, and visual SVG analytics.
-- **JWT Authentication**: Secure user registration, bcrypt password hashing, and token-based sessions.
+| Analytics Dashboard & Search History | Responsive Mobile Layout |
+|:---:|:---:|
+| ![Analytics Dashboard](docs/screenshots/05_dashboard.png) | <img src="docs/screenshots/06_mobile_view.png" width="360" alt="Mobile View" /> |
 
 ---
 
-## 3. Verdict Standards
+## Features
 
-| Verdict | Meaning | Evidentiary Requirement |
-| :--- | :--- | :--- |
-| 🟢 **SUPPORTED** | The claim is accurate and corroborated. | Multiple authoritative sources (Academic, Government, Major News) confirm the statement with verifiable evidence; no credible refutations found. |
-| 🔴 **CONTRADICTED** | The claim is false or disproven. | Established sources or accredited fact-checking bodies (Snopes, PolitiFact, CDC, FDA) provide direct counter-evidence debunking the statement. |
-| 🟠 **MISLEADING / MISSING CONTEXT** | Partially true but deceptive. | The claim refers to genuine events or partial facts, but removes vital caveats, exaggerates findings, or takes quotes out of context. |
-| 🟡 **UNVERIFIED** | Inconclusive or insufficient evidence. | Insufficient reliable evidence could be located. **Strict Rule:** Absence of evidence is never converted into "Fake" or "False." |
+* **AI claim extraction**: Natural language processing automatically extracts atomic, verifiable claims from compound sentences and full articles.
+* **Live evidence retrieval**: Queries real-time sources including open news feeds, Google News RSS, and Wikipedia API without synthetic hallucinations.
+* **Fact-check search**: Integrates with the Google Fact Check Tools API and indexed fact-checking archives (Snopes, PolitiFact, Full Fact).
+* **Source classification**: Tiers publishers by authority (*Government / Official*, *Academic / Scientific*, *Established News*, *Fact-Check Organization*, *General Website*).
+* **Evidence-based verification**: Compares retrieved stances, cross-referencing corroborating and conflicting primary sources.
+* **Multi-claim analysis**: Parses multi-paragraph news articles, isolates independent claims, and computes individual verdicts.
+* **ML Pattern Signal**: Scikit-Learn TF-IDF and Logistic Regression pipeline that flags sensationalist, hyperbolic, or clickbait linguistic patterns.
+* **Real-time verification stages**: Server-Sent Events (SSE) stream progress live (`READING_CONTENT` &rarr; `EXTRACTING_CLAIMS` &rarr; `SEARCHING_EVIDENCE` &rarr; `COMPARING_SOURCES` &rarr; `GENERATING_EXPLANATION`).
+* **URL analysis**: SSRF-protected safe scraping engine extracts clean article text, metadata, and handles redirects safely.
+* **Verification history**: Stores user audit history in MongoDB (with automatic in-memory fallback for local dev).
+* **Analytics dashboard**: Interactive metrics, verdict distributions, category breakdowns, and query history inspection.
+* **Authentication**: Secure JWT sessions with bcrypt password hashing and optional anonymous verification.
+* **Responsive glassmorphic UI**: Modern interface with smooth animations, accessible contrast, and mobile-friendly responsive design.
 
 ---
 
-## 4. System Architecture
+## How It Works
 
-```
-TruthLens/
-├── backend/
-│   ├── main.py                  # FastAPI entrypoint, lifespan, CORS, error handling
-│   ├── config.py                # Pydantic v2 application configuration
-│   ├── database.py              # Async Motor MongoDB driver & in-memory fallback
-│   ├── api/
-│   │   ├── auth.py              # Registration, login, JWT issuance, profile
-│   │   ├── health.py            # System health, DB status, ML model status
-│   │   ├── history.py           # Historical verifications, analytics & search
-│   │   └── verify.py            # Verification engine & SSE streaming endpoint
-│   ├── services/
-│   │   ├── article_extractor.py # BeautifulSoup HTML parsing & text extraction
-│   │   ├── claim_extractor.py   # Atomic claim segmentation & NLP parser
-│   │   ├── evidence_service.py  # Stance classification (Supports vs Contradicts)
-│   │   ├── factcheck_service.py # Google Fact Check API & open archives
-│   │   ├── ml_detector.py       # ML Pattern Signal bridge
-│   │   ├── search_service.py    # Open news RSS, Wikipedia API, web retrieval
-│   │   ├── source_analyzer.py   # Domain authority & category classifier
-│   │   └── verification_engine.py# Transparent verdict synthesizer
-│   ├── schemas/                 # Strict Pydantic models (auth & verify)
-│   ├── utils/                   # SSRF protection & bcrypt security
-│   └── tests/                   # Complete Pytest test suite (12 tests)
-├── ml/
-│   ├── dataset/                 # Balanced training & test datasets
-│   ├── models/                  # Serialized TF-IDF vectorizer & Logistic Regression
-│   ├── preprocess.py            # Text normalization & linguistic cues
-│   ├── train.py                 # Model training pipeline
-│   ├── evaluate.py              # Accuracy, precision, recall, F1, confusion matrix
-│   └── inference.py             # High-performance inference detector
-├── frontend/
-│   ├── src/
-│   │   ├── components/          # Navbar, Footer, VerificationBox, ProgressStages,
-│   │   │                        # ResultView, EvidenceCard, AuthModal, AnalyticsChart
-│   │   ├── pages/               # LandingPage, WorkspacePage, DashboardPage, HowItWorks
-│   │   ├── services/            # SSE client, REST API, JWT auth client
-│   │   ├── types/               # TypeScript interfaces
-│   │   ├── index.css            # Bright Glass Intelligence Laboratory design system
-│   │   ├── App.tsx              # Root component & state orchestration
-│   │   └── main.tsx             # React 19 entrypoint
-│   ├── package.json
-│   └── vite.config.ts
-├── .env.example
-├── .gitignore
-└── LICENSE
+```text
+User Input
+    ↓
+Article / Claim Extraction
+    ↓
+Claim Identification
+    ↓
+Web & Fact-Check Search
+    ↓
+Evidence Retrieval
+    ↓
+Source Analysis
+    ↓
+Evidence Comparison
+    ↓
+Verification Verdict
+    ↓
+Transparent Explanation
 ```
 
 ---
 
-## 5. Machine Learning Pipeline
+## Verdicts
 
-The ML pipeline is trained on verified news and misinformation patterns:
-1. **Preprocessing**: Normalized text, stripped URLs, preserved punctuation cues (exclamations, questions, capitalization ratio).
-2. **Feature Extraction**: TF-IDF with sublinear term frequency scaling and 1-2 n-grams.
-3. **Classifier**: Regularized Logistic Regression with balanced class weights.
-4. **Evaluation Metrics** (evaluated on held-out test split):
-   - **Accuracy**: 80.00%
-   - **Precision**: 80.00%
-   - **Recall**: 80.00%
-   - **F1 Score**: 80.00%
-   - **Confusion Matrix**: `[[8, 2], [2, 8]]`
-
-The ML classifier outputs an **ML Pattern Signal** that detects sensationalism or clickbait phrasing without overriding real-world external evidence.
+| Verdict | Definition & Evidentiary Standard |
+| :--- | :--- |
+| 🟢 **SUPPORTED** | **Evidence supports the claim.**<br>Multiple authoritative sources (Academic, Government, or Major News) confirm the statement with verifiable evidence; no credible refutations found. |
+| 🔴 **CONTRADICTED** | **Reliable evidence conflicts with the claim.**<br>Established authoritative sources or certified fact-checking organizations (Snopes, PolitiFact, CDC, FDA) provide direct counter-evidence debunking the statement. |
+| 🟡 **UNVERIFIED** | **There is insufficient reliable evidence to establish the claim.**<br>Insufficient corroborating evidence could be found in public records. *Absence of evidence is never treated as proof of falsity.* |
+| 🟠 **MISLEADING / MISSING CONTEXT** | **The claim may contain some truth but lacks important context or exaggerates the evidence.**<br>The assertion references genuine events or partial facts, but removes vital caveats, exaggerates scientific findings, or distorts facts. |
 
 ---
 
-## 6. Installation & Running Locally
+## ML Model
 
-### Prerequisites
-- Python 3.10+ (tested on Python 3.14)
-- Node.js 18+ (tested on Node v24)
-- MongoDB (optional; system automatically falls back to in-memory storage if unavailable)
+TruthLens incorporates a dedicated Machine Learning classification model:
+* **Vectorization**: TF-IDF Vectorizer (unigrams + bigrams, sublinear term frequency scaling).
+* **Classifier**: Regularized Logistic Regression with balanced class weights.
+* **Role**: **ML Pattern Signal**
 
-### 1. Clone & Setup Environment
-```bash
-git clone https://github.com/truthlens/truthlens.git
-cd truthlens
-cp .env.example .env
+> [!IMPORTANT]
+> **Responsible Evaluation:** The ML model score is **NOT** a probability that a claim is true or false. It identifies stylistic and linguistic patterns associated with sensationalism or misinformation phrasing in training data. It serves solely as one auxiliary signal within TruthLens's multi-layered evidence verification architecture.
+
+---
+
+## Tech Stack
+
+### Frontend
+* **React 19**
+* **TypeScript**
+* **Vite**
+* **Vanilla CSS** (Custom Bright Glass Design System)
+* **Lucide React** (Icons)
+
+### Backend
+* **Python 3.10+** (FastAPI)
+* **Pydantic v2** & **Pydantic Settings**
+* **HTTPX** (Asynchronous HTTP client)
+* **BeautifulSoup4** (HTML parsing and article body extraction)
+* **PyJWT** & **Bcrypt** (Authentication)
+
+### AI / ML
+* **Scikit-learn**
+* **TF-IDF Vectorization**
+* **Logistic Regression**
+* **NLP Claim Decomposition**
+* **Evidence Stance Analysis**
+
+### Database
+* **MongoDB** (via Async Motor driver, with automatic in-memory fallback)
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Client["React + TypeScript Frontend\n(Vite / Glassmorphic UI)"]
+    API["FastAPI Backend\n(Async HTTPX / SSRF Guard)"]
+    
+    subgraph CoreEngine ["TruthLens Verification Pipeline"]
+        Extractor["Article / Claim Extractor\n(NLP Decomposition)"]
+        Search["Evidence Retrieval Service\n(Google News RSS + Wikipedia)"]
+        FactCheck["Fact-Check Service\n(Google Fact Check API)"]
+        SourceEval["Source Authority Classifier\n(Domain & Reputation Tiers)"]
+        MLEngine["ML Pattern Signal\n(TF-IDF + Logistic Regression)"]
+        Synthesizer["Verification Verdict Synthesizer\n(Transparent Reasoning Engine)"]
+    end
+    
+    DB[("MongoDB / In-Memory Store\n(Users & History)")]
+    
+    Client -->|"Input URL, Text, or Claim"| API
+    API --> Extractor
+    Extractor --> Search
+    Extractor --> FactCheck
+    Search --> SourceEval
+    FactCheck --> SourceEval
+    Extractor --> MLEngine
+    SourceEval --> Synthesizer
+    MLEngine --> Synthesizer
+    Synthesizer -->|"Stream SSE / Result JSON"| API
+    API -->|"Persist Audit Record"| DB
+    API -->|"Render Cards & Verdict"| Client
 ```
 
-### 2. Setup & Start Backend
-```bash
-# Optional: create virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-# source venv/bin/activate
+---
 
-# Install Python requirements
-pip install fastapi uvicorn pydantic pydantic-settings motor pymongo httpx beautifulsoup4 scikit-learn joblib pyjwt bcrypt pandas pytest
+## Installation
 
-# Run automated tests
-python -m pytest backend/tests -v
+### Backend Setup (Windows)
 
-# Start FastAPI server
-python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+```powershell
+# 1. Create and activate a Python virtual environment
+python -m venv .venv
+.venv\Scripts\activate
+
+# 2. Install dependencies
+pip install -r requirements.txt
 ```
-The backend API is now live at `http://127.0.0.1:8000`. Interactive Swagger documentation is available at `http://127.0.0.1:8000/docs`.
 
-### 3. Setup & Start Frontend
-In a new terminal:
+*(On macOS/Linux: use `python3 -m venv .venv` and `source .venv/bin/activate`)*
+
+### Frontend Setup
+
 ```bash
 cd frontend
 npm install
+```
+
+---
+
+## Environment Variables
+
+Copy `.env.example` to create your local `.env`:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `ENVIRONMENT` | Runtime environment (`development` / `production`) | `development` |
+| `DEBUG` | Enable verbose logging | `true` |
+| `MONGODB_URI` | MongoDB connection URI | `mongodb://localhost:27017/truthlens` |
+| `DATABASE_NAME` | Database name | `truthlens_db` |
+| `JWT_SECRET` | Secret key for JWT session tokens | `replace_with_secure_secret` |
+| `GOOGLE_FACT_CHECK_API_KEY` | *(Optional)* Google Fact Check Tools API key | `""` |
+| `GEMINI_API_KEY` | *(Optional)* Google Gemini API key for advanced NLP | `""` |
+| `OPENAI_API_KEY` | *(Optional)* OpenAI API key for advanced NLP | `""` |
+| `VITE_API_URL` | Backend URL for frontend clients | `http://127.0.0.1:8000/api` |
+
+> [!NOTE]
+> All external API keys and MongoDB are **optional**. TruthLens has robust, built-in open-retrieval mechanisms and in-memory storage fallbacks allowing the system to run out-of-the-box without paid API keys.
+
+---
+
+## Running Locally
+
+### Start Backend API Server
+```powershell
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+```
+Interactive API docs: `http://127.0.0.1:8000/docs`
+
+### Start Frontend Application
+In a separate terminal:
+```bash
+cd frontend
 npm run dev
 ```
 Open `http://localhost:5173` in your browser.
 
 ---
 
-## 7. API Endpoints
+## Testing
 
-- `GET /api/health` — System status, DB connectivity, ML model availability.
-- `POST /api/verify` — Standard synchronous claim verification.
-- `POST /api/verify/stream` — Real-time Server-Sent Events (SSE) verification stream.
-- `GET /api/verify/demo/{example_id}` — Certified reference cases (`supported`, `contradicted`, `misleading`).
-- `POST /api/auth/register` — User registration with bcrypt hashing.
-- `POST /api/auth/login` — JWT token generation.
-- `GET /api/auth/me` — Authenticated profile lookup.
-- `GET /api/history` — Historical verification search and filtering.
-- `GET /api/history/stats` — Verification metrics, category breakdown, activity timeline.
-- `GET /api/history/{id}` — Single verification report inspection.
-
----
-
-## 8. Verification & Test Suite
-
-Run the complete backend test suite:
+### Automated Backend Tests
+Run the comprehensive Pytest suite:
 ```bash
 python -m pytest backend/tests -v
 ```
-Tests verify:
-- System health and database connectivity
-- SSRF prevention against private IP subnets and localhost
-- Multi-claim clause decomposition and attribution stripping
-- Source domain authority categorization
-- Unverified, Supported, and Contradicted decision logic
-- ML Pattern Signal inference
-- User registration, login, and demo endpoints
 
-Test the production frontend build:
+### Frontend Build Validation
+Verify TypeScript types and production asset bundling:
 ```bash
 cd frontend
 npm run build
@@ -196,14 +239,16 @@ npm run build
 
 ---
 
-## 9. Limitations & AI Ethics
+## Responsible AI / Limitations
 
-1. **Information Horizon**: Live verification depends on the availability and indexing of public reporting, academic publications, and certified fact-checks.
+> TruthLens does not establish absolute truth. It provides evidence-based claim analysis using available sources, fact-checks, retrieval methods, and machine-learning signals. Lack of evidence does not automatically mean a claim is false, and external source ratings are presented as external assessments rather than absolute TruthLens determinations.
+
+1. **Information Availability**: Live verification depends on the public availability and indexing of news reports, academic findings, and certified fact-checks.
 2. **Novel Events**: Breaking events with zero published coverage will be classified as `UNVERIFIED`. TruthLens never assumes falsity based on missing documentation.
-3. **Linguistic Stylometry**: The ML Pattern Signal reflects stylistic markers of clickbait or sensationalism and is explicitly segregated from evidentiary proof.
+3. **Linguistic Stylometry**: The ML Pattern Signal reflects stylistic markers of clickbait or sensationalism and is explicitly separated from evidentiary proof.
 
 ---
 
-## 10. License
+## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE) — Copyright (c) 2026 Rohith Konuru.
